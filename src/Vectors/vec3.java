@@ -59,14 +59,14 @@ public class vec3 implements Comparable<vec3> {
      * Scales ( multiplies ) each component by a scalar.
      * 
      * @param f The scalar to scale
-     * @return A new vector equal to ( x * f , y * f , z * f )
+     * @return A new vector equal to ( x * f , y * f , z * f ) .
      */
     public vec3 scale(float f) { return new vec3( x * f , y * f , z * f ); }
     /**
      * Divides each component by a scalar.
      * 
-     * @param f
-     * @return 
+     * @param f The dividend scalar.
+     * @return A new vector equal to ( x / f , y / f , z / f ) .
      */
     public vec3 divide(float f) { return this.scale( 1.0f / f ); }
     /**
@@ -138,21 +138,21 @@ public class vec3 implements Comparable<vec3> {
         );
     }
     /**
-     * Per-component maximum operation.
+     * Component-wise maximum operation.
      * 
      * @param f The scalar.
      * @return A new vector that's equal to ( max(x , f) , max(y , f) , max(z , f) ) .
      */
     public vec3 max(float f) { return new vec3( Math.max(x, f) , Math.max(y, f) , Math.max(z, f) ); }
     /**
-     * Per-component minimum operation.
+     * Component-wise minimum operation.
      * 
      * @param f The scalar.
      * @return A new vector that's equal to ( min(x , f) , min(y , f) , min(z , f) ) .
      */
     public vec3 min (float f) { return new vec3( Math.min(x, f) , Math.min(y, f) , Math.min(z, f) ); }
     /**
-     * Per-component clamping operation.
+     * Component-wise clamping operation.
      * Throws an error is h is less than l.
      * 
      * @param l The lowest allowed value.
