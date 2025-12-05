@@ -23,13 +23,22 @@ public class Quaternion {
      */
     public Quaternion(float s, float i, float j, float k) { this.s = s; this.i = i; this.j = j; this.k = k; }
     /**
+     * Copy constructor.
+     * 
+     * @param q The quaternion to copy.
+     */
+    public Quaternion(Quaternion q) { s = q.s; i = q.i; j = q.j; k = q.k; }
+    /**
      * Constructor that uses a float plus a vec3 object to instantiate this. 
      * The x, y, & z will correspond to i, j, & k. The float will be the scalar.
      * 
      * @param s What will be the scalar of this quaternion.
      * @param v The vector to be used for the imaginary components.
      */
-    public Quaternion(float s, Vectors.vec3 v) { this.s = s; i = v.x; j = v.y; k = v.z; }
+    public Quaternion(float s, Vectors.vec3 v) { 
+        if (v == null) { this.s = s; i = 0; j = 0; k = 0; } 
+        this.s = s; i = v.x; j = v.y; k = v.z; 
+    }
     /**
      * Constructor using a vec4 object. x, y, & z corresponds to i, j, & k.
      * w will be the scalar value.
@@ -210,6 +219,14 @@ public class Quaternion {
     }
     
     /**
+     * Calculates the dot product.
+     * 
+     * @param o The other quaternion.
+     * @return The dot product.
+     */
+    public float dot(Quaternion o) { return s*o.s + i*o.i + j*o.j + k*o.k; }
+    
+    /**
      * Takes in a vec3 object and rotates it using this quaternion.
      * 
      * @param v The vector to be rotated.
@@ -225,7 +242,7 @@ public class Quaternion {
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc=" Information Calculators ">
-    public float magnitude() { return (float) Math.sqrt(this.magnitude()); }
+    public float magnitude() { return (float) Math.sqrt(this.magnitudeSquared()); }
     public float magnitudeSquared() { return s*s + i*i + j*j + k*k; }
     //</editor-fold>
     
@@ -233,13 +250,14 @@ public class Quaternion {
     public Quaternion negate() { return this.scale(-1.0f); }
     public Quaternion normalize() {
         float l = this.magnitude();
+        if (l == 0) return new Quaternion(this);
         return new Quaternion(s / l, i / l, j / l, k / l);
     }
     public Quaternion inverse() {
-        float normSq = this.magnitudeSquared();
-        if (normSq == 0) throw new ArithmeticException("Cannot invert a zero quaternion");
+        float lsqrd = this.magnitudeSquared();
+        if (lsqrd == 0) throw new ArithmeticException("Cannot invert a zero quaternion");
         Quaternion conj = conjugate();
-        return new Quaternion(conj.s / normSq, conj.i / normSq, conj.j / normSq, conj.k / normSq);
+        return new Quaternion(conj.s / lsqrd, conj.i / lsqrd, conj.j / lsqrd, conj.k / lsqrd);
     }
     public Quaternion conjugate() { return new Quaternion(s, -i, -j, -k); }
     //</editor-fold>
@@ -268,5 +286,37 @@ public class Quaternion {
         this.k = Float.parseFloat(s[3].trim());
     }
     public String toStringImag() { return "{" + i + ":" + j + ":" + k + "}"; }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc=" Equal Operators ">
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Quaternion)) return false;
+        if (this == obj) return true;
+        Quaternion q = (Quaternion) obj;
+        return s == q.s && i == q.i && j == q.j && k == q.k; 
+    }
+    /**
+     * Compares if two quaternion are approximately equal.
+     * 
+     * @param o     The other quaternion.
+     * @param eps   Epsilon, how far away each component can be.
+     * @return      True if all components differ by at most eps.
+     */
+    public boolean epsilonEquals(Quaternion o, float eps) {
+        if (o == null) return false;
+        return Math.abs(s - o.s) < eps &&
+               Math.abs(i - o.i) < eps &&
+               Math.abs(j - o.j) < eps &&
+               Math.abs(k - o.k) < eps;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc=" Hashing & Comparing ">
+    @Override
+    public int hashCode() { return java.util.Objects.hash(s, i, j, k); }
+    public int compareTo(Quaternion o) {
+        return Float.compare(this.magnitudeSquared(), o.magnitudeSquared());
+    }
     //</editor-fold>
 }

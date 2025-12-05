@@ -388,7 +388,6 @@ public class vec3 implements Comparable<vec3> {
         if (this == obj) return true;
         vec3 o = (vec3) obj;
         return x == o.x && y == o.y && z == o.z; 
-        
     }
     /**
      * Compares if two vectors are approximately equal.
