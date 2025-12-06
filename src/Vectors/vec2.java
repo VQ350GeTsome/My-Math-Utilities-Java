@@ -16,7 +16,7 @@ public class vec2 implements Comparable<vec2> {
      */
     public vec2() { x = 0; y = 0; }
     /**
-     * Constructor that fills all components the same.
+     * Constructor that fills all components with the input.
      * 
      * @param w What each component will be ( w , w ) .
      */

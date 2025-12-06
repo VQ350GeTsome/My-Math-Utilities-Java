@@ -16,7 +16,7 @@ public class vec3 implements Comparable<vec3> {
      */
     public vec3() { x = 0.0f; y = 0.0f; z = 0.0f; }
     /**
-     * Constructor that fills all components the same.
+     * Constructor that fills all components with the input.
      * 
      * @param w What each component will be ( w , w , w ) .
      */
