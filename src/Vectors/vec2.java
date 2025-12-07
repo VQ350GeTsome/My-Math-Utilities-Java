@@ -324,6 +324,25 @@ public class vec2 implements Comparable<vec2> {
         float cs = (float) Math.cos(thetaRadians), sn = (float) Math.sin(thetaRadians);
         return new vec2(x * cs - y * sn, x * sn + y * cs);
     }
+    
+    /**
+     * Flips the components.
+     * 
+     * @return A new vector equal to ( y , x ) 
+     */
+    public vec2 flip() { return new vec2(y, x); }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc=" Miscellaneous ">
+    /**
+     * Generates a random vector where each component is random and between [-1, 1]
+     * 
+     * @return The new randomized vector.
+     */
+    public static vec2 getRandom() {
+        return new vec2((float) Math.random(), (float) Math.random())
+                   .subtract(0.50f).scale(2.0f); 
+    }
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc=" Equal Operators ">

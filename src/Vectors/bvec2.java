@@ -33,62 +33,109 @@ public class bvec2 {
     
     //<editor-fold defaultstate="collapsed" desc=" Operators ">
     /**
-     * Component-wise and operator. 
+     * Component-wise and operator. Performs (P ∧ Q) on each component
+     * of this vector (P) and the other vector (Q), and creates a new 
+     * vector with the result.
      * 
-     * @param q The other vector.
-     * @return A new vector equal to ( a and q.a , b and q.b ) .
+     * @param q The other vector (Q).
+     * @return A new vector equal to ( a ∧ q.a , b ∧ q.b ) .
      */
     public bvec2 and(bvec2 q) { return new bvec2(a && q.a, b && q.b); }
     /**
-     * Component-wise nand operator.
+     * Component-wise nand operator. Performs ¬(P ∧ Q) on each component
+     * of this vector (P) and the other vector (Q), and creates a new 
+     * vector with the result.
      * 
-     * @param q The other vector.
-     * @return A new vector equal to ( a nand q.a , b nand q.b ) .
+     * @param q The other vector (Q).
+     * @return A new vector equal to ( ¬(a ∧ q.a) , ¬(b ∧ q.b) ) .
      */
     public bvec2 nand(bvec2 q) { return this.and(q).not(); }
     
     /**
-     * Component-wise or operator.
+     * Component-wise or operator. Performs (P ∨ Q) on each component
+     * of this vector (P) and the other vector (Q), and creates a new 
+     * vector with the result.
      * 
-     * @param q The other vector.
-     * @return A new vector equal to ( a or q.a , b or q.b ) .
+     * @param q The other vector (Q).
+     * @return A new vector equal to ( a ∨ q.a , b ∨ q.b ) .
      */
     public bvec2 or(bvec2 q) { return new bvec2(a || q.a, b || q.b); }
     /**
-     * Component-wise nor operator.
+     * Component-wise nor operator. Performs ¬(P ∨ Q) on each component
+     * of this vector (P) and the other vector (Q), and creates a new 
+     * vector with the result.
      * 
-     * @param q The other vector.
-     * @return A new vector equal to ( a nor q.a , b nor q.b ) .
+     * @param q The other vector (Q).
+     * @return A new vector equal to ( ¬(a ∨ q.a) , ¬(b ∨ q.b) ) .
      */
     public bvec2 nor(bvec2 q) { return this.or(q).not(); }
     
     /**
-     * Component wise xor operator.
+     * Component-wise xor operator. Performs (P ⊕ Q) on each component 
+     * of this vector (P) and the other vector (Q), and creates a new 
+     * vector with the result.
      * 
-     * @param q The other vector.
-     * @return A new vector equal to ( a xor q.a , b xor q.b ) .
+     * @param q The other vector (Q).
+     * @return A new vector equal to ( a ⊕ q.a , b ⊕ q.b ) .
      */
     public bvec2 xor(bvec2 q) { return new bvec2(a ^ q.a, b ^ q.b); }
     /**
-     * Component wise xnor operator.
+     * Component-wise xnor operator. Performs ¬(P ⊕ Q) on each component 
+     * of this vector (P) and the other vector (Q), and creates a new 
+     * vector with the result.
      * 
-     * @param q The other vector.
-     * @return A new vector equal to ( a xnor q.a , b xnor q.b ) .
+     * @param q The other vector (Q).
+     * @return A new vector equal to ( ¬(a ⊕ q.a) , ¬(b ⊕ q.b) ) .
      */
     public bvec2 xnor(bvec2 q) { return this.xor(q).not(); }
+    
+    /**
+     * Component-wise implies operator. Performs (P → Q) on each component 
+     * of this vector (P) and the other vector (Q), and creates a new 
+     * vector with the result.
+     * 
+     * @param q The other vector (Q).
+     * @return A new vector equal to ( a → q.a , b → q.b )
+     */
+    public bvec2 implies(bvec2 q) { return this.not().or(q); }
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc=" Reductions ">
+    /**
+     * @return True if any component is true, false if all components are false.
+     */
     public boolean any() { return a || b; }
+    /**
+     * @return True if all components are true, false if any component is false.
+     */
     public boolean all() { return a && b; }
+    /**
+     * @return True if all components are false, false if any component is true.
+     */
     public boolean none() { return !any(); }
-    public boolean equals(bvec2 o) { return a == o.a && b == o.b; }
+    /**
+     * Checks if each component of this vector (P) is equal
+     * to the correlated component of the other vector (Q)
+     * 
+     * @param q The other vector (Q).
+     * @return True if they're all the same, false if at least one is different.
+     */
+    public boolean equals(bvec2 q) { return a == q.a && b == q.b; }
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc=" Transformers ">
+    /**
+     * Flips each component of this vector.
+     * 
+     * @return A new vector equal to ( !a , !b ) .
+     */
     public bvec2 not() { return new bvec2(!a, !b); }
-    public bvec2 shift() { return new bvec2(b, a); }
-    public bvec2 flip() { return shift(); }
+    /**
+     * Flips the components of this vector.
+     * 
+     * @return A new vector equal to ( b , a ) .
+     */
+    public bvec2 flip() { return new bvec2(b, a); }
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc=" Overrides ">

@@ -358,6 +358,25 @@ public class vec3 implements Comparable<vec3> {
      * @return A new rotated vector.
      */
     public vec3 rotate(ComplexNumbers.Quaternion q) { return q.rotate(this); }
+    
+    /**
+     * Flips the components.
+     * 
+     * @return A new vector equal to ( z , y , x ) .
+     */
+    public vec3 flip() { return new vec3(z, y, x); }
+    /**
+     * Shifts all components to the right
+     * 
+     * @return A new vector equal to ( z , x , y ) .
+     */
+    public vec3 shiftRight() { return new vec3(z, x, y); }
+    /**
+     * Shifts all components to the left.
+     * 
+     * @return A new vector equal to ( y , z , x ) .
+     */
+    public vec3 shiftLeft() { return new vec3(y, z, x); }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc=" java.awt.Color methods & constructors ">
@@ -416,6 +435,18 @@ public class vec3 implements Comparable<vec3> {
     public vec2 zy() { return new vec2(z, y); }
     //</editor-fold>
     
+    //<editor-fold defaultstate="collapsed" desc=" Miscellaneous ">
+    /**
+     * Generates a random vector where each component is random and between [-1, 1]
+     * 
+     * @return The new randomized vector.
+     */
+    public static vec3 getRandom() {
+        return new vec3((float) Math.random(), (float) Math.random(), (float) Math.random())
+                   .subtract(0.50f).scale(2.0f); 
+    }
+    //</editor-fold>
+    
     //<editor-fold defaultstate="collapsed" desc=" Equal Operators ">
     @Override
     public boolean equals(Object obj) { 
@@ -445,5 +476,7 @@ public class vec3 implements Comparable<vec3> {
     @Override
     public int compareTo(vec3 o) { return Float.compare(lengthSqrd(), o.lengthSqrd()); }
     //</editor-fold>
+    
+    
     
 }
