@@ -1,6 +1,6 @@
 package Vectors;
 
-public class bvec2 {
+public class bvec2 implements Comparable<bvec2> {
 
     //The two booleans.
     boolean a, b;
@@ -121,13 +121,17 @@ public class bvec2 {
      * @return True if they're all the same, false if at least one is different.
      */
     public boolean equals(bvec2 q) { return a == q.a && b == q.b; }
+    /**
+     * @return The amount of true components. For example if (a = true) & (b = false) it returns 1.
+     */
+    public int totalTrue() { return ((a)?1:0) + ((b)?1:0); }
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc=" Transformers ">
     /**
      * Flips each component of this vector.
      * 
-     * @return A new vector equal to ( !a , !b ) .
+     * @return A new vector equal to ( ¬a , ¬b ) .
      */
     public bvec2 not() { return new bvec2(!a, !b); }
     /**
@@ -154,6 +158,8 @@ public class bvec2 {
         int hb = b ? 1 : 0; 
         return ha | (hb << 1); 
     }
+    @Override
+    public int compareTo(bvec2 q) { return Integer.compare(this.totalTrue(), q.totalTrue()); }
     //</editor-fold>
     
 }
