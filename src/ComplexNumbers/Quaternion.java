@@ -26,12 +26,7 @@ public class Quaternion implements Comparable<Quaternion> {
      * @param k The k component.
      */
     public Quaternion(float s, float i, float j, float k) { this.s = s; this.i = i; this.j = j; this.k = k; }
-    /**
-     * Copy constructor.
-     * 
-     * @param q The quaternion to copy.
-     */
-    public Quaternion(Quaternion q) { s = q.s; i = q.i; j = q.j; k = q.k; }
+    
     /**
      * Constructor that uses a float plus a vec3 object to instantiate this. 
      * The x, y, & z will correspond to i, j, & k. The float will be the scalar.
@@ -53,6 +48,22 @@ public class Quaternion implements Comparable<Quaternion> {
         if (v == null) { s = 1; i = 0; j = 0; k = 0; } 
         else { s = v.w; i = v.x; j = v.y; k = v.z; }
     }
+    
+    /**
+     * Constructor using a complex number.
+     * 
+     * @param si The complex number that'll be used for the scalar and i.
+     * @param j The j component.
+     * @param k The k component.
+     */
+    public Quaternion(ComplexNumber si, float j, float k) { s = si.r; i = si.i; this.j = j; this.k = k; }
+    
+    /**
+     * Copy constructor.
+     * 
+     * @param q The quaternion to copy.
+     */
+    public Quaternion(Quaternion q) { s = q.s; i = q.i; j = q.j; k = q.k; }
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc=" Simple Scalar Operators ">
@@ -186,6 +197,31 @@ public class Quaternion implements Comparable<Quaternion> {
         if (h < l) throw new ArithmeticException("Highest allowed value cannot be less than the lowest allowed value ... " + h + " < " + l);
         return this.max(l).min(h); 
     }
+    
+    public Quaternion pow(float n) {
+        //If n is close enough to a whole number
+        if (Math.abs(n % 1) < 1e-9) {
+            n = (int) n;
+            Quaternion result = new Quaternion();
+            for (; n > 0; n--) result = result.multiply(this);
+            return result;
+        }
+        
+        float[] components = this.getPolarForm();
+        if (components[0] == 0) return new Quaternion();
+        
+        float newMag = (float) Math.pow(components[0], n);
+        float newTheta = (float) Math.pow(components[1], n);
+        
+        float s = (float) (newMag * Math.cos(newTheta));
+        float sinTheta = (float) Math.sin(newTheta);
+        
+        float i = newMag * components[2] * sinTheta,
+              j = newMag * components[3] * sinTheta,
+              k = newMag * components[4] * sinTheta;
+        
+        return new Quaternion (s, i, j, k);
+    }
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc=" Special Quaternion Operators ">
@@ -246,8 +282,37 @@ public class Quaternion implements Comparable<Quaternion> {
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc=" Information Calculators ">
+    /**
+     * Calculates and returns the magnitude of this quaternion.
+     * 
+     * @return The square root of sum of each component squared.
+     */
     public float magnitude() { return (float) Math.sqrt(this.magnitudeSquared()); }
+    /**
+     * Calculates the sum of each component squared. 
+     * This is equivalent to the magnitude squared.
+     * 
+     * @return The sum of each component squared.
+     */
     public float magnitudeSquared() { return s*s + i*i + j*j + k*k; }
+    
+    /**
+     * Calculates the polar form of this quaternion and returns it as
+     * a float array in the form of { magnitude, theta, unit i, unit j, unit k }
+     * 
+     * @return The size 5 float array with the components.
+     */
+    public float[] getPolarForm() {
+        float mag = this.magnitude();
+        if (mag == 0) return new float[] { 0, 0, 0, 0, 0 };
+        float theta = (float) Math.acos(s / mag); 
+        
+        float vMag = (float) Math.sqrt(i*i + j*j + k*k);
+        
+        float ui = i / vMag, uj = j / vMag, uk = k / vMag;
+        
+        return new float[] { mag, theta, ui, uj, uk };
+    }
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc=" Transformers ">

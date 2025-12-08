@@ -370,13 +370,13 @@ public class vec3 implements Comparable<vec3> {
      * 
      * @return A new vector equal to ( z , x , y ) .
      */
-    public vec3 shiftRight() { return new vec3(z, x, y); }
+    public vec3 shiftRight() { return this.zxy(); }
     /**
      * Shifts all components to the left.
      * 
      * @return A new vector equal to ( y , z , x ) .
      */
-    public vec3 shiftLeft() { return new vec3(y, z, x); }
+    public vec3 shiftLeft() { return this.yzx(); }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc=" java.awt.Color methods & constructors ">
@@ -433,6 +433,9 @@ public class vec3 implements Comparable<vec3> {
     
     public vec2 zx() { return new vec2(z, x); }
     public vec2 zy() { return new vec2(z, y); }
+    
+    public vec3 zxy() { return new vec3(z, x, y); }
+    public vec3 yzx() { return new vec3(y, z, x); }
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc=" Miscellaneous ">
