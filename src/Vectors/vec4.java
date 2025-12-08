@@ -338,13 +338,14 @@ public class vec4 implements Comparable<vec4> {
         int q = 1;
         for (int i = 0; places > i; i++) q *= 10;
         
-        float nx = x, ny = y, nz = z;
+        float nx = x, ny = y, nz = z, nw = w;
         
         nx = Math.round(nx * q) / (float) q;
         ny = Math.round(ny * q) / (float) q;
         nz = Math.round(nz * q) / (float) q;
+        nw = Math.round(nw * q) / (float) q;
         
-        return new vec3(nx, ny, nz);
+        return new vec4(nx, ny, nz, nw);
     }
     
     /**
@@ -567,4 +568,5 @@ public class vec4 implements Comparable<vec4> {
     @Override
     public int compareTo(vec4 o) { return Float.compare(lengthSqrd(), o.lengthSqrd()); }
     //</editor-fold>
+    
 }

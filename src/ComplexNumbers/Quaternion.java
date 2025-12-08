@@ -316,19 +316,40 @@ public class Quaternion implements Comparable<Quaternion> {
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc=" Transformers ">
+    /**
+     * Negates every component.
+     * 
+     * @return A new quaternion equal to ( -s , -i , -j , -k ) .
+     */
     public Quaternion negate() { return this.scale(-1.0f); }
+    /**
+     * Calculates the magnitude of this quaternion and creates a new one
+     * with each component being divided by the magnitude.
+     * 
+     * @return A new quaternion that has been normalized.
+     */
     public Quaternion normalize() {
         float l = this.magnitude();
         if (l == 0) return new Quaternion(this);
         return new Quaternion(s / l, i / l, j / l, k / l);
     }
+    /**
+     * Calculates the inverse of this quaternion and creates a new quaternion that's the inverse.
+     * 
+     * @return A new quaternion that's the inverse of this one.
+     */
     public Quaternion inverse() {
         float lsqrd = this.magnitudeSquared();
         if (lsqrd == 0) throw new ArithmeticException("Cannot invert a zero quaternion");
         Quaternion conj = conjugate();
         return new Quaternion(conj.s / lsqrd, conj.i / lsqrd, conj.j / lsqrd, conj.k / lsqrd);
     }
-    public Quaternion conjugate() { return new Quaternion(s, -i, -j, -k); }
+    /**
+     * Negates only the imaginary components.
+     * 
+     * @return A new quaternion equal to ( s , -i , -j , -k ) .
+     */
+    public Quaternion conjugate() { return this.scaleImag(-1.0f); }
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc=" String Methods & Constructor ">
