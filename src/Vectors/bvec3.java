@@ -157,7 +157,8 @@ public class bvec3 implements Comparable<bvec3> {
     public int hashCode() { 
         int ha = a ? 1 : 0;
         int hb = b ? 1 : 0; 
-        return ha | (hb << 1); 
+        int hc = c ? 1 : 0;
+        return ha | (hb << 1) | (hc << 2); 
     }
     @Override
     public int compareTo(bvec3 q) { return Integer.compare(this.totalTrue(), q.totalTrue()); }
