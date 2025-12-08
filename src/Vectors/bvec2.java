@@ -19,10 +19,11 @@ public class bvec2 implements Comparable<bvec2> {
     /**
      * Full explicit constructor.
      * 
-     * @param a The first boolean value a.
-     * @param b The second boolean value b.
+     * @param a The first boolean value, a.
+     * @param b The second boolean value, b.
      */
     public bvec2(boolean a, boolean b) { this.a = a; this.b = b; }
+    
     /**
      * Copy constructor.
      * 

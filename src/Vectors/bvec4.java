@@ -25,6 +25,55 @@ public class bvec4 implements Comparable<bvec4> {
      * @param d The fourth boolean value, d.
      */
     public bvec4(boolean a, boolean b, boolean c, boolean d) { this.a = a; this.b = b; this.c = c; this.d = d; }
+    
+    /**
+     * Constructor using two bvec2s.
+     * 
+     * @param ab The bvec2 that'll be used for the a & b components.
+     * @param cd The bvec2 that'll be used for the c & d components.
+     */
+    public bvec4(bvec2 ab, bvec2 cd) { a = ab.a; b = ab.b; c = cd.a; d = cd.b; }
+
+    /**
+     * Constructor using a bvec2.
+     * 
+     * @param ab The bvec2 that'll be used for the a & b component.
+     * @param c The third boolean value, c.
+     * @param d The fourth boolean value, d.
+     */
+    public bvec4(bvec2 ab, boolean c, boolean d) { a = ab.a; b = ab.b; this.c = c; this.d = d; }
+    /**
+     * Constructor using a bvec2.
+     * 
+     * @param a The first boolean value, a.
+     * @param bc The bvec2 that'll be used for the b & c components.
+     * @param d  The fourth boolean value, d.
+     */
+    public bvec4(boolean a, bvec2 bc, boolean d) { this.a = a; b = bc.a; c = bc.b; this.d = d; }
+    /**
+     * Constructor using a bvec2.
+     * 
+     * @param a The first boolean value, a.
+     * @param b The second boolean value, b.
+     * @param cd The bvec2 that'll be used for the c & d components.
+     */
+    public bvec4(boolean a, boolean b, bvec2 cd) { this.a = a; this.b = b; c = cd.a; d = cd.b; }
+    
+    /**
+     * Constructor using a bvec3.
+     * 
+     * @param abc The bvec3 to be used for a, b, & c components.
+     * @param d The fourth boolean value, d.
+     */
+    public bvec4(bvec3 abc, boolean d) { a = abc.a; b = abc.b; c = abc.c; this.d = d; }
+    /**
+     * Constructor using a bvec3. 
+     * 
+     * @param a The first boolean value, a.
+     * @param bcd The bvec3 that'll be used for the b, c, & d components.
+     */
+    public bvec4(boolean a, bvec3 bcd) { this.a = a; b = bcd.a; c = bcd.b; d = bcd.c; }
+    
     /**
      * Copy constructor.
      * 

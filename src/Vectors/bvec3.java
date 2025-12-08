@@ -19,11 +19,27 @@ public class bvec3 implements Comparable<bvec3> {
     /**
      * Full explicit constructor.
      * 
-     * @param a The first boolean value a.
-     * @param b The second boolean value b.
-     * @param c The third boolean value c.
+     * @param a The first boolean value, a.
+     * @param b The second boolean value, b.
+     * @param c The third boolean value, c.
      */
     public bvec3(boolean a, boolean b, boolean c) { this.a = a; this.b = b; this.c = c; }
+    
+    /**
+     * Constructor using a bvec2.
+     * 
+     * @param ab A bvec2 that's components will be used for this bvec3's a & b.
+     * @param c The third boolean value, c.
+     */
+    public bvec3(bvec2 ab, boolean c) { a = ab.a; b = ab.b; this.c = c; }
+    /**
+     * Constructor using a bvec2.
+     * 
+     * @param a The first boolean, a.
+     * @param bc A bvec2 that'll be used for b & c.
+     */
+    public bvec3(boolean a, bvec2 bc) { this.a = a; b = bc.a; c = bc.b; }
+    
     /**
      * Copy constructor.
      * 

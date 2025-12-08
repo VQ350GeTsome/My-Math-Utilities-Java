@@ -331,6 +331,12 @@ public class vec2 implements Comparable<vec2> {
      * @return A new vector equal to ( y , x ) 
      */
     public vec2 flip() { return new vec2(y, x); }
+    /**
+     * Creates a new vec2 swizzled such that y and x are swapped.
+     * 
+     * @return A new vector equal to ( y , x ) 
+     */
+    public vec2 yx() { return flip(); }
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc=" Miscellaneous ">
