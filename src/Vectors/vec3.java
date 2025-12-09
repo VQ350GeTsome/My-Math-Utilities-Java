@@ -400,6 +400,14 @@ public class vec3 implements Comparable<vec3> {
     //<editor-fold defaultstate="collapsed" desc=" String Methods & Constructors ">
     @Override
     public String toString() { return "(" + x + " : " + y + " : " + z + ")"; }
+    /**
+     * Forms a String array full of the components as Strings.
+     * For example if this vector is (10, -25, 0) it'll return
+     * an array equal to { "10" , "-25" , "0" }
+     * This can be used to reconstruct a vec3.
+     * 
+     * @return The String array.
+     */
     public String[] toStringArray() { return new String[] { ""+x, ""+y, ""+z }; }
     /**
      * Turns the .toString() method back into a vec3 object
@@ -410,14 +418,16 @@ public class vec3 implements Comparable<vec3> {
      * Turns the .toStringArray method back into a vec3 object
      * @param comp A length 3 array of Strings that are floats
      */
-    public vec3(String[] comp) {
+    public vec3(String[] comp) throws NumberFormatException {
         try {
             x = Float.parseFloat(comp[0].trim());
             y = Float.parseFloat(comp[1].trim());
             z = Float.parseFloat(comp[2].trim());
         } catch (NumberFormatException e) {
-            System.err.println("Error parsing string for vec3 ...");
-            System.err.println(e.getMessage());
+            throw new NumberFormatException(
+                    "Error parsing vec3 from String ...\n" +
+                     e.getMessage()
+            );
         }
     }
     //</editor-fold>

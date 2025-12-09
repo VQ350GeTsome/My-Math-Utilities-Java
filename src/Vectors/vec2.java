@@ -339,6 +339,40 @@ public class vec2 implements Comparable<vec2> {
     public vec2 yx() { return flip(); }
     //</editor-fold>
     
+    //<editor-fold defaultstate="collapsed" desc=" String Methods & Constructors ">
+    @Override
+    public String toString() { return "(" + x + " : " + y + ")"; }
+    /**
+     * Forms a String array full of the components as Strings.
+     * For example if this vector is (10, -25) it'll return
+     * an array equal to { "10" , "-25" }
+     * This can be used to reconstruct a vec2.
+     * 
+     * @return The String array.
+     */
+    public String[] toStringArray() { return new String[] { ""+x, ""+y }; }
+    /**
+     * Turns the .toString() method back into a vec2 object
+     * @param vector A String in the form {x:y:z} or (x, y, z)
+     */
+    public vec2(String vector) { this(vector.trim().replaceAll("[(){}]", "").split("[,\\:]")); }
+    /**
+     * Turns the .toStringArray method back into a vec2 object
+     * @param comp A length 3 array of Strings that are floats
+     */
+    public vec2(String[] comp) throws NumberFormatException {
+        try {
+            x = Float.parseFloat(comp[0].trim());
+            y = Float.parseFloat(comp[1].trim());
+        } catch (NumberFormatException e) {
+            throw new NumberFormatException(
+                    "Error parsing vec2 from String ...\n" +
+                     e.getMessage()
+            );
+        }
+    }
+    //</editor-fold>
+    
     //<editor-fold defaultstate="collapsed" desc=" Miscellaneous ">
     /**
      * Generates a random vector where each component is random and between [-1, 1]

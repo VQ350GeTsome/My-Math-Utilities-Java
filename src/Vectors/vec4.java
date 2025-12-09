@@ -442,6 +442,14 @@ public class vec4 implements Comparable<vec4> {
     //<editor-fold defaultstate="collapsed" desc=" String Methods & Constructors ">
     @Override
     public String toString() { return "(" + x + " : " + y + " : " + z + " : " + w + " )"; }
+    /**
+     * Forms a String array full of the components as Strings.
+     * For example if this vector is (10, -25, 0, 50) it'll return
+     * an array equal to { "10" , "-25" , "0" , "50" }
+     * This can be used to reconstruct a vec4.
+     * 
+     * @return The String array.
+     */
     public String[] toStringArray() { return new String[] { ""+x, ""+y, ""+z, ""+w }; }
     /**
      * Turns the .toString() method back into a vec4 object
@@ -452,15 +460,17 @@ public class vec4 implements Comparable<vec4> {
      * Turns the .toStringArray method back into a vec3 object
      * @param comp A length 3 array of Strings that are floats
      */
-    public vec4(String[] comp) {
+    public vec4(String[] comp) throws NumberFormatException {
         try {
             x = Float.parseFloat(comp[0].trim());
             y = Float.parseFloat(comp[1].trim());
             z = Float.parseFloat(comp[2].trim());
             w = Float.parseFloat(comp[3].trim());
         } catch (NumberFormatException e) {
-            System.err.println("Error parsing string for vec4 ...");
-            System.err.println(e.getMessage());
+            throw new NumberFormatException(
+                    "Error parsing vec4 from String ...\n" +
+                     e.getMessage()
+            );
         }
     }
     //</editor-fold>

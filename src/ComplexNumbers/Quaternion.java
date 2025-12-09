@@ -198,9 +198,21 @@ public class Quaternion implements Comparable<Quaternion> {
         return this.max(l).min(h); 
     }
     
+    /**
+     * If n is a positive whole number, it'll repeatedly multiply a result 
+     * Quaternion until the result is calculated and return a new Quaternion that's 
+     * the result. 
+     * 
+     * If n is some non-whole number, it'll calculate the polar form, 
+     * exponentiate  it, and calculate the s, i, j, & k components and return 
+     * those as a new Quaternion. 
+     * 
+     * @param n The exponent.
+     * @return A new Quaternion that has been exponentiated.
+     */
     public Quaternion pow(float n) {
         //If n is close enough to a whole number
-        if (Math.abs(n % 1) < 1e-9) {
+        if (Math.abs(n % 1) < 1e-9 && n > 0) {
             n = (int) n;
             Quaternion result = new Quaternion();
             for (; n > 0; n--) result = result.multiply(this);
@@ -355,25 +367,19 @@ public class Quaternion implements Comparable<Quaternion> {
     //<editor-fold defaultstate="collapsed" desc=" String Methods & Constructor ">
     @Override
     public String toString() { return "{" + s + ":" + i + ":" + j + ":" + k + "}"; }
-    public Quaternion(String s) {
-        s = s.trim().substring(1, s.length() - 2);   //Trim off grouping character
-        String[] comp = s.split("[,\\:]");           //Split by , or :
-        
-        if (comp.length != 4) {
-            throw new IllegalArgumentException("Invalid Quaternion format: " + s);
-        }
-                
-        // Parse and assign
-        this.s = Float.parseFloat(comp[0].trim());
-        this.i = Float.parseFloat(comp[1].trim());
-        this.j = Float.parseFloat(comp[2].trim());
-        this.k = Float.parseFloat(comp[3].trim());
-    }
-    public Quaternion(String[] s) {
-        this.s = Float.parseFloat(s[0].trim());
-        this.i = Float.parseFloat(s[1].trim());
-        this.j = Float.parseFloat(s[2].trim());
-        this.k = Float.parseFloat(s[3].trim());
+    public Quaternion(String s) { this(s.trim().substring(1, s.length() - 2).split("[,\\:]")); }
+    public Quaternion(String[] s) throws NumberFormatException {
+        try {
+            this.s = Float.parseFloat(s[0].trim());
+            this.i = Float.parseFloat(s[1].trim());
+            this.j = Float.parseFloat(s[2].trim());
+            this.k = Float.parseFloat(s[3].trim());
+        } catch (NumberFormatException e) { 
+            throw new NumberFormatException(
+                    "Error parsing Quaternion from String ...\n" +
+                     e.getMessage()
+            );
+        } 
     }
     public String toStringImag() { return "{" + i + ":" + j + ":" + k + "}"; }
     //</editor-fold>
