@@ -30,6 +30,54 @@ public class vec4 implements Comparable<vec4> {
      * @param w The w component.
      */
     public vec4(float x, float y, float z, float w)  { this.x = x; this.y = y; this.z = z; this.w = w; }
+    
+    /**
+     * Constructor using two vec2s.
+     * 
+     * @param xy The vec2 that'll be used for the x & y components.
+     * @param zw The vec2 that'll be used for the z & w components.
+     */
+    public vec4(vec2 xy, vec2 zw) { x = xy.x; y = xy.y; z = zw.x; w = zw.y; }
+    
+    /**
+     * Constructor using a vec2.
+     * 
+     * @param xy The vec2 that'll be used for the x & y components.
+     * @param z The z component.
+     * @param w The w component.
+     */
+    public vec4(vec2 xy, float z, float w) { x = xy.x; y = xy.y; this.z = z; this.w = w; }
+    /**
+     * Constructor using a vec2.
+     * 
+     * @param x The x component.
+     * @param yz The vec2 that'll be used for the y & z components.
+     * @param w The w component.
+     */
+    public vec4(float x, vec2 yz, float w) { this.x = x; y = yz.x; z = yz.y; this.w = w; }
+    /**
+     * Constructor using a vec2.
+     * 
+     * @param x The x component.
+     * @param y The y component.
+     * @param zw The vec2 that'll be used for the z & w components.
+     */
+    public vec4(float x, float y, vec2 zw) { this.x = x; this.y = y; z = zw.x; w = zw.y; }
+    
+    /**
+     * Constructor using a vec3.
+     * 
+     * @param xyz The vec3 that'll be used for the x, y, & z components.
+     * @param w The w component.
+     */
+    public vec4(vec3 xyz, float w) { x = xyz.x; y = xyz.y; z = xyz.z; this.w = w; }
+    /**
+     * Constructor using a vec3.
+     * 
+     * @param x The x component.
+     * @param yzw The vec3 that'll be used for the y, z, & w components.
+     */
+    public vec4(float x, vec3 yzw) { this.x = w; y = yzw.x; z = yzw.y; w = yzw.z; }
         
     /**
      * Copy constructor.
