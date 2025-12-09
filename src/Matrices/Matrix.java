@@ -1,5 +1,10 @@
 package Matrices;
 
+/**
+ * A matrix class with most commonly used functions.
+ * 
+ * @author Harrison Davis
+ */
 public class Matrix {
 
     // The matrix.
@@ -366,17 +371,42 @@ public class Matrix {
         return id;
     }
     
+    /**
+     * Calculates the square of this matrix's norm.
+     * This can be sometimes used in place of .norm(),
+     * as this is a cheaper calculation as it doesn't 
+     * use Math.sqrt().
+     * 
+     * @return The square of this Matrix's norm.
+     */
     public float squareNorm() { 
         float sumSqrs = 0.0f;
         for (int i = 0; this.r > i; i++) for (int j = 0; this.c > j; j++) 
             sumSqrs += this.mat[i][j] * this.mat[i][j];
         return sumSqrs;
     }
+    /**
+     * Calculates and returns the norm of this matrix.
+     * 
+     * @return The norm of this Matrix.
+     */
     public float norm() { return (float) Math.sqrt(this.squareNorm()); }
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc=" Transformers ">
+    /**
+     * Negates every element of this matrix. This is
+     * equivalent to scaling it by -1.
+     * 
+     * @return A new Matrix that's equal to this matrix but each element has been negated.
+     */
     public Matrix negate() { return this.scale(-1.0f); }
+    /**
+     * Calculates the inverse of this matrix (M^-1) and returns it.
+     * The inverse holds that (M) * (M^-1) = the identity matrix.
+     * 
+     * @return A new Matrix that's the inverse of this Matrix.
+     */
     public Matrix inverse() {
         if (r != c) throw new ArithmeticException("Cannot inverse a non-square matrix ...");
         if (this.determinant() == 0) throw new ArithmeticException("Matrix is singular and cannot be inverted ...");
@@ -385,6 +415,15 @@ public class Matrix {
         return augmented.getRightHalf();
     }
     
+    /**
+     * Creates a new Matrix & copies this one to it, then
+     * augments (or concatenates) another Matrix to it. 
+     * 
+     * @param o The other Matrix
+     * @return A new Matrix that's equal to ( this | o ) .
+     * 
+     * @throws ArithmeticException if the two matrices have different row counts.
+     */
     public Matrix augment(Matrix o) throws ArithmeticException {
         if (this.r != o.r) throw new ArithmeticException("Cannot augment two matrices if they have different row counts ...");
         int nc = this.c + o.c;
@@ -402,27 +441,65 @@ public class Matrix {
         return augmented;
     }
     
+    /**
+     * Creates a new Matrix and fills it with the right half 
+     * of this matrix, then returns it.
+     * 
+     * @return A new Matrix that's the right half of this one.
+     * 
+     * @throws ArithmeticException if this Matrix isn't able 
+     *      to be halfed. (i.e., the columns mod 2 == 1)
+     */
     public Matrix getRightHalf() throws ArithmeticException {
         if (this.c % 2 == 1) throw new ArithmeticException("Cannot half a matrix when the column count is odd ...");
         return this.getRight(this.c / 2);
     }
-    public Matrix getRight(int column) {
-        Matrix right = new Matrix(this.r, column);
-        for (int i = 0; this.r > i; i++) for (int j = column; this.c > j; j++) 
-            right.mat[i][j - column] = this.mat[i][j];
+    /**
+     * Creates a new Matrix and fills it with whatever is to 
+     * the right of colStart.
+     * 
+     * @param colStart The column to start the split.
+     * @return A new sub Matrix with whatever is to the right of colStart.
+     */
+    public Matrix getRight(int colStart) {
+        Matrix right = new Matrix(this.r, colStart);
+        for (int i = 0; this.r > i; i++) for (int j = colStart; this.c > j; j++) 
+            right.mat[i][j - colStart] = this.mat[i][j];
         return right;
     }
+    
+    /**
+     * Creates a new Matrix and fills it with the left half 
+     * of this matrix, then returns it.
+     * 
+     * @return A new Matrix that's the left half of this one.
+     * 
+     * @throws ArithmeticException if this Matrix isn't able 
+     *      to be halfed. (i.e., the columns mod 2 == 1)
+     */
     public Matrix getLeftHalf() throws ArithmeticException {
         if (this.c % 2 == 1) throw new ArithmeticException("Cannot half a matrix when the column count is odd ...");
         return this.getLeft(this.c / 2);
     } 
-    public Matrix getLeft(int column) {
-        Matrix left = new Matrix(this.r, column);
-        for (int i = 0; this.r > i; i++) for (int j = 0; column > j; j++) 
+    /**
+     * Creates a new Matrix and fills it with whatever is to 
+     * the left of colEnd.
+     * 
+     * @param colEnd The column to end the split.
+     * @return A new sub Matrix with whatever is to the left of colEnd.
+     */
+    public Matrix getLeft(int colEnd) {
+        Matrix left = new Matrix(this.r, colEnd);
+        for (int i = 0; this.r > i; i++) for (int j = 0; colEnd > j; j++) 
             left.mat[i][j] = this.mat[i][j];
         return left;
     }
     
+    /**
+     * Calculates a new normalized Matrix using this one.
+     * 
+     * @return A new Matrix that's been normalized.
+     */
     public Matrix normalize() {
         float n = this.norm();
         Matrix normalized = new Matrix(this.r, this.c);
@@ -453,6 +530,12 @@ public class Matrix {
         Matrix o = (Matrix) obj;
         return this.equals(o);
     }
+    /**
+     * Checks if this Matrix and another are equal to another.
+     * 
+     * @param o The other Matrix.
+     * @return True if they're equal, false if not.
+     */
     public boolean equals(Matrix o) {
         for (int i = 0; this.r > i; i++) for (int j = 0; this.c > j; j++) 
             if (this.mat[i][j] != o.mat[i][j]) return false;
