@@ -1,5 +1,11 @@
 package Vectors;
 
+/**
+ * Boolean vector class with most boolean operators.
+ * Made of three components.
+ *  
+ * @author Harrison Davis
+ */
 public class bvec3 implements Comparable<bvec3> {
 
     //The three booleans.

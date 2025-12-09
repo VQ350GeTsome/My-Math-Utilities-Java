@@ -1,5 +1,10 @@
 package ComplexNumbers;
 
+/**
+ * Complex number class with most common operators.
+ * 
+ * @author Harrison Davis
+ */
 public class Complex {
 
     //The real and imaginary components.
@@ -156,7 +161,22 @@ public class Complex {
      * @return A new Complex that has been exponentiated.
      */
     public Complex pow(float n) {
-        return null;
+        if (Math.abs(n % 1) < 1e-9 && n > 0) {
+            n = (int) n;
+            Complex result = new Complex(1, 0);
+            for (; n > 0; n--) result = result.multiply(this);
+            return result;
+        }
+
+        Vectors.vec2 pf = this.getPolarForm();
+        
+        float newR = (float) Math.pow(pf.x, n),
+              newTheta = pf.y * n;
+
+        float real = (float) (newR * Math.cos(newTheta)),
+              imag = (float) (newR * Math.sin(newTheta));
+        
+        return new Complex(real, imag); 
     }
     //</editor-fold>
     
@@ -208,9 +228,7 @@ public class Complex {
      */
     public float magnitudeSquared() { return r*r + i*i; }
     
-    public Vectors.vec2 getPolarForm() {
-        return null;
-    }
+    public Vectors.vec2 getPolarForm() { return new Vectors.vec2(this.magnitude(), (float) Math.atan2(i, r)); }
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc=" Transformers ">

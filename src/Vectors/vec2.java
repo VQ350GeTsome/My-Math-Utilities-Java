@@ -1,7 +1,8 @@
 package Vectors;
 
 /**
- * A two component vector class, with many common operations & operators.
+ * A vector class with commonly needed methods.
+ * Made of two components.
  * 
  * @author Harrison Davis
  */

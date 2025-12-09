@@ -1,5 +1,11 @@
 package Vectors;
 
+/**
+ * Boolean vector class with most boolean operators.
+ * Made of four components.
+ *  
+ * @author Harrison Davis
+ */
 public class bvec4 implements Comparable<bvec4> {
 
     //The four booleans.
