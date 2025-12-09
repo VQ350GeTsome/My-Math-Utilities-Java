@@ -31,7 +31,7 @@ public class Quaternion implements Comparable<Quaternion> {
      * Constructor that uses a float plus a vec3 object to instantiate this. 
      * The x, y, & z will correspond to i, j, & k. The float will be the scalar.
      * 
-     * @param s What will be the scalar of this quaternion.
+     * @param s What will be the scalar of this Quaternion.
      * @param v The vector to be used for the imaginary components.
      */
     public Quaternion(float s, Vectors.vec3 v) { 
@@ -42,7 +42,7 @@ public class Quaternion implements Comparable<Quaternion> {
      * Constructor using a vec4 object. x, y, & z corresponds to i, j, & k.
      * w will be the scalar value.
      * 
-     * @param v The vec4 to use. If null this will be equal to the identity quaternion.
+     * @param v The vec4 to use. If null this will be equal to the identity Quaternion.
      */
     public Quaternion(Vectors.vec4 v) { 
         if (v == null) { s = 1; i = 0; j = 0; k = 0; } 
@@ -56,12 +56,12 @@ public class Quaternion implements Comparable<Quaternion> {
      * @param j The j component.
      * @param k The k component.
      */
-    public Quaternion(ComplexNumber si, float j, float k) { s = si.r; i = si.i; this.j = j; this.k = k; }
+    public Quaternion(Complex si, float j, float k) { s = si.r; i = si.i; this.j = j; this.k = k; }
     
     /**
      * Copy constructor.
      * 
-     * @param q The quaternion to copy.
+     * @param q The Quaternion to copy.
      */
     public Quaternion(Quaternion q) { s = q.s; i = q.i; j = q.j; k = q.k; }
     //</editor-fold>
@@ -115,22 +115,22 @@ public class Quaternion implements Comparable<Quaternion> {
     /**
      * Component-wise addition.
      * 
-     * @param o The other quaternion to add.
-     * @return A new quaternion equal to ( s + o.s , i + o.i , j + o.j , k + o.k ) .
+     * @param o The other Quaternion to add.
+     * @return A new Quaternion equal to ( s + o.s , i + o.i , j + o.j , k + o.k ) .
      */
     public Quaternion add(Quaternion o) { return new Quaternion(s + o.s, i + o.i, j + o.j, k + o.k); }
     /**
      * Component-wise subtraction.
      * 
-     * @param o The subtrahend quaternion.
-     * @return A new quaternion equal to ( s - o.s , i - o.i , j - o.j , k - o.k ) .
+     * @param o The subtrahend Quaternion.
+     * @return A new Quaternion equal to ( s - o.s , i - o.i , j - o.j , k - o.k ) .
      */
     public Quaternion subtract(Quaternion o) { return this.add(o.negate()); }
     /**
      * Multiplies the quaternions.
      * 
-     * @param o The multiplicator quaternion.
-     * @return A new quaternion that's been multiplied.
+     * @param o The multiplicator Quaternion.
+     * @return A new Quaternion that's been multiplied.
      */
     public Quaternion multiply(Quaternion o) {
         return new Quaternion(
@@ -143,8 +143,8 @@ public class Quaternion implements Comparable<Quaternion> {
     /**
      * Divides the quaternions.
      * 
-     * @param o The dividend quaternion.
-     * @return A new quaternion that's been dividend.
+     * @param o The dividend Quaternion.
+     * @return A new Quaternion that's been dividend.
      */
     public Quaternion divide(Quaternion o) { return this.multiply(o.inverse()); }
     //</editor-fold>
@@ -154,14 +154,14 @@ public class Quaternion implements Comparable<Quaternion> {
      * Component-wise max ( Java's % operator ) .
      * 
      * @param m The dividend.
-     * @return A new quaternion  equal to ( s % m , i % m , j % m , k % m ) .
+     * @return A new Quaternion equal to ( s % m , i % m , j % m , k % m ) .
      */
     public Quaternion remainder(float m) { return new Quaternion(s % m, i % m, j % m, k % m); }
     /**
      * Component-wise mathematical modulus ( Always positive ) .
      * 
      * @param m The dividend.
-     * @return A new quaternion equal to ( s mod m , i mod m , j mod m , k mod m ) .
+     * @return A new Quaternion equal to ( s mod m , i mod m , j mod m , k mod m ) .
      */
     public Quaternion modulus(float m) { 
         return new Quaternion(
@@ -175,14 +175,14 @@ public class Quaternion implements Comparable<Quaternion> {
      * Component-wise maximum operation.
      * 
      * @param f The scalar.
-     * @return A new quaternion that's equal to ( max(s , f) , max(i , f) , max(j , f) , max(k , f) ) .
+     * @return A new Quaternion that's equal to ( max(s , f) , max(i , f) , max(j , f) , max(k , f) ) .
      */
     public Quaternion max(float f) { return new Quaternion( Math.max(s, f) , Math.max(i, f) , Math.max(j, f) , Math.max(k, f) ); }
     /**
      * Component-wise minimum operation.
      * 
      * @param f The scalar.
-     * @return A new quaternion that's equal to ( min(s , f) , min(i , f) , min(j , f) , min(k , f) ) .
+     * @return A new Quaternion that's equal to ( min(s , f) , min(i , f) , min(j , f) , min(k , f) ) .
      */
     public Quaternion min (float f) { return new Quaternion( Math.min(s, f) , Math.min(i, f) , Math.min(j, f) , Math.min(k, f) ); }
     /**
@@ -191,7 +191,7 @@ public class Quaternion implements Comparable<Quaternion> {
      * 
      * @param l The lowest allowed value.
      * @param h The highest allowed value.
-     * @return A new quaternion where each component is within [l, h].
+     * @return A new Quaternion where each component is within [l, h].
      */
     public Quaternion clamp(float l, float h) { 
         if (h < l) throw new ArithmeticException("Highest allowed value cannot be less than the lowest allowed value ... " + h + " < " + l);
@@ -240,15 +240,15 @@ public class Quaternion implements Comparable<Quaternion> {
     /**
      * Per-component maximum against another vector.
      * 
-     * @param o The other quaternion whose components will be used.
-     * @return A new quaternion that's equal to ( max(s , o.s) , max(i , o.i) , max(j , o.j) , min(k , o.k) ) .
+     * @param o The other Quaternion whose components will be used.
+     * @return A new Quaternion that's equal to ( max(s , o.s) , max(i , o.i) , max(j , o.j) , min(k , o.k) ) .
      */
     public Quaternion max(Quaternion o) { return new Quaternion(Math.max(s, o.s), Math.max(i, o.i), Math.max(j, o.j), Math.max(k, o.k)); }
     /**
      * Per-component minimum against another vector.
      * 
-     * @param o The other quaternion whose components will be used.
-     * @return A new quaternion that's equal to ( min(s , o.s) , min(i , o.i) , min(j , o.j) , min(k, o.k) ) .
+     * @param o The other Quaternion whose components will be used.
+     * @return A new Quaternion that's equal to ( min(s , o.s) , min(i , o.i) , min(j , o.j) , min(k, o.k) ) .
      */
     public Quaternion min(Quaternion o) { return new Quaternion(Math.min(s, o.s), Math.min(i, o.i), Math.min(j, o.j), Math.min(k, o.k)); }
     /**
@@ -258,9 +258,9 @@ public class Quaternion implements Comparable<Quaternion> {
      * if you try to clamp some quaternion in between [ (1, 2, 3, 3) , (0 , 3, 5, 7) ]
      * this will throw an error because l.s > h.s .
      * 
-     * @param l The other quaternion whose components will be used for the low.
-     * @param h The other quaternion whose components will be used for the high.
-     * @return A new quaternion where each component is within [l, h].
+     * @param l The other Quaternion whose components will be used for the low.
+     * @param h The other Quaternion whose components will be used for the high.
+     * @return A new Quaternion where each component is within [l, h].
      */
     public Quaternion clamp(Quaternion l, Quaternion h) {
         if (h.s < l.s) throw new ArithmeticException("Highest allowed value cannot be less than the lowest allowed value... " + h.s + " < " + l.s);
@@ -273,7 +273,7 @@ public class Quaternion implements Comparable<Quaternion> {
     /**
      * Calculates the dot product.
      * 
-     * @param o The other quaternion.
+     * @param o The other Quaternion.
      * @return The dot product.
      */
     public float dot(Quaternion o) { return s*o.s + i*o.i + j*o.j + k*o.k; }
@@ -282,7 +282,7 @@ public class Quaternion implements Comparable<Quaternion> {
      * Takes in a vec3 object and rotates it using this quaternion.
      * 
      * @param v The vector to be rotated.
-     * @return A new vec3 that's been rotated in accordance to this quaternion.
+     * @return A new vec3 that's been rotated in accordance to this Quaternion.
      */
     public Vectors.vec3 rotate(Vectors.vec3 v) {
         if (v == null) return v;
@@ -331,14 +331,14 @@ public class Quaternion implements Comparable<Quaternion> {
     /**
      * Negates every component.
      * 
-     * @return A new quaternion equal to ( -s , -i , -j , -k ) .
+     * @return A new Quaternion equal to ( -s , -i , -j , -k ) .
      */
     public Quaternion negate() { return this.scale(-1.0f); }
     /**
      * Calculates the magnitude of this quaternion and creates a new one
      * with each component being divided by the magnitude.
      * 
-     * @return A new quaternion that has been normalized.
+     * @return A new Quaternion that has been normalized.
      */
     public Quaternion normalize() {
         float l = this.magnitude();
@@ -348,7 +348,7 @@ public class Quaternion implements Comparable<Quaternion> {
     /**
      * Calculates the inverse of this quaternion and creates a new quaternion that's the inverse.
      * 
-     * @return A new quaternion that's the inverse of this one.
+     * @return A new Quaternion that's the inverse of this one.
      */
     public Quaternion inverse() {
         float lsqrd = this.magnitudeSquared();
@@ -359,7 +359,7 @@ public class Quaternion implements Comparable<Quaternion> {
     /**
      * Negates only the imaginary components.
      * 
-     * @return A new quaternion equal to ( s , -i , -j , -k ) .
+     * @return A new Quaternion equal to ( s , -i , -j , -k ) .
      */
     public Quaternion conjugate() { return this.scaleImag(-1.0f); }
     //</editor-fold>
@@ -395,7 +395,7 @@ public class Quaternion implements Comparable<Quaternion> {
     /**
      * Compares if two quaternion are approximately equal.
      * 
-     * @param o     The other quaternion.
+     * @param o     The other Quaternion.
      * @param eps   Epsilon, how far away each component can be.
      * @return      True if all components differ by at most eps.
      */
