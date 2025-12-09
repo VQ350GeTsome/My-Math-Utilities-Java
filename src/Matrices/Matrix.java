@@ -22,7 +22,7 @@ public class Matrix {
     }
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc=" Getters ">
+    //<editor-fold defaultstate="collapsed" desc=" Getters & Setters ">
     public int getRows() { return r; }
     public int getColumns() { return c; }
     public float getValue(int i, int j) throws ArrayIndexOutOfBoundsException {
@@ -32,6 +32,13 @@ public class Matrix {
         //If it's valid return the data.
         return mat[i][j];
     }
+    public void setValue(int i, int j, float value) throws ArrayIndexOutOfBoundsException {
+        //Check bounds
+        if (i > r - 1 || 0 > i) throw new ArrayIndexOutOfBoundsException("Row index, " + i + ", out of bounds!");
+        if (j > c - 1 || 0 > j) throw new ArrayIndexOutOfBoundsException("Column index, " + j + ", out of bounds!");
+        //If it's valid set the data
+        mat[i][j] = value;
+    } 
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc=" Simple Scalar Operations ">
@@ -125,23 +132,19 @@ public class Matrix {
 
             // Scale pivot row so pivot = 1
             double pivotVal = augmented.mat[pivot][pivot];
-            for (int j = 0; augmented.c > j; j++) {
-                augmented.mat[pivot][j] /= pivotVal;
-            }
+            for (int j = 0; augmented.c > j; j++) augmented.mat[pivot][j] /= pivotVal;
 
             // Eliminate other rows in this column
             for (int i = 0; this.r > i; i++) {
                 if (i != pivot) {
                     double factor = augmented.mat[i][pivot];
-                    for (int j = 0; augmented.c > j; j++) {
-                        augmented.mat[i][j] -= factor * augmented.mat[pivot][j];
-                    }
+                    for (int j = 0; augmented.c > j; j++) augmented.mat[i][j] -= factor * augmented.mat[pivot][j];
                 }
             }
         }
 
-        // 4. Return the right half (the transformed o)
-        return augmented.getRight(augmented.c - column);
+        // 4. Return the left half 
+        return augmented.getLeft(augmented.c - column);
     }
     //</editor-fold>
     
@@ -233,6 +236,24 @@ public class Matrix {
         for (int i = 0; this.r > i; i++) for (int j = column; this.c > j; j++) 
             right.mat[i][j - column] = this.mat[i][j];
         return right;
+    }
+    public Matrix getLeft(int column) {
+        Matrix left = new Matrix(this.r, column);
+        for (int i = 0; this.r > i; i++) for (int j = 0; column > j; j++) 
+            left.mat[i][j] = this.mat[i][j];
+        return left;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc=" String Methods ">
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < this.r; i++) {
+            for (int j = 0; j < this.c; j++) sb.append(String.format("%8.3f", this.mat[i][j]));
+            sb.append("\n");
+        }
+        return sb.toString();
     }
     //</editor-fold>
     
